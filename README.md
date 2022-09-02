@@ -14,10 +14,57 @@ Instead of manually using formulas in excel each time there is new data added, w
 
 The purpose of this new VBA script is to refactor the code to make it run more efficiently (faster) to output each Ticker's name, Total Daily Volume, and Return. See the screenshot below for the Analysis for All Stocks in 2018.
 
+![AllStocks](Resources/AllStocks.png)
+
 
 ## Results 
+In order to refactor the code that was already written, I needed to create separate for loops instead of a nested loop to run through the data one time to collect all the needed information. To do this, I needed to first create a ticker Index, three different output arrays (for Volumes, Starting and Ending Prices), and set tickerVolumes to zero. 
+
+
+  'Initialize array of all tickers
+    Dim tickers(12) As String
+    
+    tickers(0) = "AY"
+    tickers(1) = "CSIQ"
+    tickers(2) = "DQ"
+    tickers(3) = "ENPH"
+    tickers(4) = "FSLR"
+    tickers(5) = "HASI"
+    tickers(6) = "JKS"
+    tickers(7) = "RUN"
+    tickers(8) = "SEDG"
+    tickers(9) = "SPWR"
+    tickers(10) = "TERP"
+    tickers(11) = "VSLR"
+    
+    'Activate data worksheet
+    Worksheets(yearValue).Activate
+    
+    'Get the number of rows to loop over
+    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+    
+    '1a) Create a ticker Index
+    Dim tickerIndex As Single
+        
+        'Set equal to zero
+        tickerIndex = 0
+
+    '1b) Create three output arrays
+    Dim tickerVolumes(12) As Long
+    Dim tickerStartingPrices(12) As Single
+    Dim tickerEndingPrices(12) As Single
+    
+    
+    ''2a) Create a for loop to initialize the tickerVolumes to zero.
+    For i = 0 To 11
+    
+        tickerVolumes(i) = 0
+        
+    Next i
+    
 ![Timer_2018](Resources/Timer_2018.png)
 ![Timer_2018_Refactored](Resources/Timer_2018_Refactored.png)
+
 
 ## Summary 
 1. What are the advantages or disadvantages of refactoring code?
