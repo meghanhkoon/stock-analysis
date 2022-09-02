@@ -5,6 +5,7 @@
 ### Purpose and Background
 
 ## Results 
+![Timer_2018](Resources/Timer_2018)
 
 ## Summary 
 1. What are the advantages or disadvantages of refactoring code?
