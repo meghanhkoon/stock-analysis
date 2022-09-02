@@ -20,28 +20,7 @@ The purpose of this new VBA script is to refactor the code to make it run more e
 ## Results 
 In order to refactor the code that was already written, I needed to create separate for loops instead of a nested loop to run through the data one time to collect all the needed information. To do this, I needed to first create a ticker Index, three different output arrays (for Volumes, Starting and Ending Prices), and set tickerVolumes to zero. 
 
-
-  'Initialize array of all tickers
-    Dim tickers(12) As String
-    
-    tickers(0) = "AY"
-    tickers(1) = "CSIQ"
-    tickers(2) = "DQ"
-    tickers(3) = "ENPH"
-    tickers(4) = "FSLR"
-    tickers(5) = "HASI"
-    tickers(6) = "JKS"
-    tickers(7) = "RUN"
-    tickers(8) = "SEDG"
-    tickers(9) = "SPWR"
-    tickers(10) = "TERP"
-    tickers(11) = "VSLR"
-    
-    'Activate data worksheet
-    Worksheets(yearValue).Activate
-    
-    'Get the number of rows to loop over
-    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+```
     
     '1a) Create a ticker Index
     Dim tickerIndex As Single
@@ -61,11 +40,93 @@ In order to refactor the code that was already written, I needed to create separ
         tickerVolumes(i) = 0
         
     Next i
+```
+
+Next, I created a for loop without any nesting. We needed to find the tickerVolume, tickerStartingPrices, and tickerEndingPrices using the tickerIndex as our new variable. From these new set values, I found the output values similarly to how we did before. In the for loop, we first needed to activate our "All Stocks Analysis" worksheet, then create values for each of the cells in our table. See the VBA code below. 
+
+```
+    '2b) Loop over all the rows in the spreadsheet.
+    For i = 2 To RowCount
     
+        '3a) Increase volume for current ticker
+        tickerVolumes(tickerIndex) = tickerVolumes(tickerIndex) + Cells(i, 8).Value
+        
+        '3b) Check if the current row is the first row with the selected tickerIndex.
+        'If Then
+        If Cells(i - 1, 1).Value <> tickers(tickerIndex) And Cells(i, 1).Value = tickers(tickerIndex) Then
+            
+            tickerStartingPrices(tickerIndex) = Cells(i, 6).Value
+            
+        End If
+        
+        '3c) check if the current row is the last row with the selected ticker
+         'If the next row’s ticker doesn’t match, increase the tickerIndex.
+        'If  Then
+        If Cells(i + 1, 1).Value <> tickers(tickerIndex) And Cells(i, 1).Value = tickers(tickerIndex) Then
+            
+            tickerEndingPrices(tickerIndex) = Cells(i, 6).Value
+            
+            
+
+            '3d Increase the tickerIndex.
+            tickerIndex = tickerIndex + 1
+            
+        End If
+    
+    Next i
+    
+    '4) Loop through your arrays to output the Ticker, Total Daily Volume, and Return.
+    For i = 0 To 11
+        
+        Worksheets("All Stocks Analysis").Activate
+        
+        Cells(4 + i, 1).Value = tickers(i)
+        Cells(4 + i, 2).Value = tickerVolumes(i)
+        Cells(4 + i, 3).Value = tickerEndingPrices(i) / tickerStartingPrices(i) - 1
+        
+    Next i
+    ```
+    
+    Lastly, the formatting stayed the same. 
+  
+  ```
+      'Formatting
+    Worksheets("All Stocks Analysis").Activate
+    Range("A3:C3").Font.FontStyle = "Bold"
+    Range("A3:C3").Borders(xlEdgeBottom).LineStyle = xlContinuous
+    Range("B4:B15").NumberFormat = "#,##0"
+    Range("C4:C15").NumberFormat = "0.0%"
+    Columns("B").AutoFit
+
+    dataRowStart = 4
+    dataRowEnd = 15
+
+    For i = dataRowStart To dataRowEnd
+        
+        If Cells(i, 3) > 0 Then
+            
+            Cells(i, 3).Interior.Color = vbGreen
+            
+        Else
+        
+            Cells(i, 3).Interior.Color = vbRed
+            
+        End If
+        
+    Next i
+    ```
+
+To see whether refactoring made a difference on the time it took to run the analysis, I first ran the analysis for our first VBA script for the year 2018 using the timer function. It took approximately 0.254 seconds. 
+
 ![Timer_2018](Resources/Timer_2018.png)
+
+After refactoring the code, I ran the timer for the new VBA script. It took 0.078 seconds! It was about 0.176 seconds faster faster. 
+
 ![Timer_2018_Refactored](Resources/Timer_2018_Refactored.png)
 
 
 ## Summary 
-1. What are the advantages or disadvantages of refactoring code?
-2. How do these pros and cons apply to refactoring the original VBA script?
+***Advantages and Disadvantages of Refactoring Code ***
+
+***Pros and Cons of Refactoring VBA Code ***
+
