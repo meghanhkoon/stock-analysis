@@ -12,7 +12,7 @@ Instead of manually using formulas in excel each time there is new data added, w
 
 ***Purpose***
 
-The purpose of this new VBA script is to refactor the code to make it run more efficiently (faster) to output each Ticker's name, Total Daily Volume, and Return. See the screenshot below for the Analysis for All Stocks in 2018.
+The purpose of this new VBA script is to refactor the code to make it run more efficiently (faster) to output each Ticker's name, Total Daily Volume, and Return. Instead of having the code run through the sheet multiple times for each ticker, the refactored code should enable the code to go through our data much quicker (by eliminating our nested for loop). See the screenshot below for the Analysis for All Stocks in 2018.
 
 ![AllStocks](Resources/AllStocks.png)
 
@@ -42,7 +42,7 @@ In order to refactor the code that was already written, I needed to create separ
     Next i
 ```
 
-Next, I created a for loop without any nesting. We needed to find the tickerVolume, tickerStartingPrices, and tickerEndingPrices using the tickerIndex as our new variable. From these new set values, I found the output values similarly to how we did before. In the for loop, we first needed to activate our "All Stocks Analysis" worksheet, then create values for each of the cells in our table. See the VBA code below. 
+Next, I created another for loop without nesting to find and store the information for our three arrays. To do this, I made sure to use tickerIndex as our variable. From these new set values, I found the array values similarly to how we did before.  At the end of this loop, we had to increase the tickerIndex by 1 to start the loop for the next ticker. In the third for loop, to get our output values in our table in our new sheet, we first needed to activate our "All Stocks Analysis" worksheet. Then we ran a for loop to create values for each of the cells in our table. See the VBA code below. 
 
 ```
     '2b) Loop over all the rows in the spreadsheet.
@@ -120,7 +120,7 @@ To see whether refactoring made a difference on the time it took to run the anal
 
 ![Timer_2018](Resources/Timer_2018.png)
 
-After refactoring the code, I ran the timer for the new VBA script. It took 0.078 seconds! It was about 0.176 seconds faster faster. 
+After refactoring the code, I ran the timer for the new VBA script. It took 0.078 seconds! It was about 0.176 seconds faster. 
 
 ![Timer_2018_Refactored](Resources/Timer_2018_Refactored.png)
 
@@ -128,8 +128,8 @@ After refactoring the code, I ran the timer for the new VBA script. It took 0.07
 ## Summary 
 ***Advantages and Disadvantages of Refactoring Code***
 
-Refactoring code has both advantages and disadvantages. By refactoring general code, we are telling the computer to take fewer steps. This allows the code to use less memory, run faster, and can be easier to understand by someone else who is reading your code/ scripts. In the real world, some disadvantages of refactoring code might be that a company does not have the time and/ money to do so. 
+Refactoring code has both advantages and disadvantages. By refactoring general code, we are telling the computer to take fewer steps. This allows the code to use less memory, run faster, and is more organized.  Refactored code is also easier to understand by someone else who is reading our code/ scripts. In the real world, some disadvantages of refactoring code might be that a company does not have the time, employers, or money to do so. 
 
 ***Pros and Cons of Refactoring VBA Code***
 
-Like general coding, there are pros and cons of refactoring code in VBA. For me, it was really difficult to refactor our already working code. I had a difficult time trying to un-nest for loops. With alot of trial and error, I found that my code did not work properly during the process of refactoring. However, after finally refactoring the code, the data analysis of the stocks did run faster! Lastly, the new refactored code looks more clean and organized for future readers to understand better. 
+Like general coding, there are pros and cons of refactoring code in VBA. For me, it was really difficult to refactor our already working code. Before receiving tutoring, I had a difficult time trying to understand why we needed more for loops. Then I understood a little more about arrays and indexes. With alot of trial and error, I found that some of my code did not work properly during the process of refactoring. However, after finally refactoring the code, the data analysis of the stocks did run faster! In hindsight, I am now able to understand why more for loops created a more organized and clearer way for us to retrieve our data in less steps! Lastly, the new refactored code looks more clean and organized for future readers to understand better. 
